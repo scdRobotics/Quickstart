@@ -14,12 +14,37 @@ public class SwerveModule {
 
     Telemetry telemetry;
 
+    final double robotWidth = 18, robotLength= 18; //width = distance of robot along forwards/backwards direction, length = distance of robot along left/right direction
+
+    private final Vector2 flPos = new Vector2(robotWidth/2, -robotLength/2);
+    private final Vector2 frPos = new Vector2(robotWidth/2, robotLength/2);
+    private final Vector2 blPos = new Vector2(-robotWidth/2, -robotLength/2);
+    private final Vector2 brPos = new Vector2(-robotWidth/2, robotLength/2);
+
+    public Vector2 pos;
+
     public SwerveModule(HardwareMap hardwareMap, Telemetry telemetry, String moduleName)
     {
         this.telemetry = telemetry;
 
         this.motor = hardwareMap.get(DcMotor.class, moduleName+"Motor");
         this.servo = hardwareMap.get(Servo.class, moduleName+"Servo");
+        if(moduleName.equals("frontLeft"))
+        {
+            this.pos = flPos;
+        }
+        else if(moduleName.equals("frontRight"))
+        {
+            this.pos = frPos;
+        }
+        else if(moduleName.equals("backRight"))
+        {
+            this.pos = brPos;
+        }
+        else if(moduleName.equals("backLeft"))
+        {
+            this.pos = blPos;
+        }
     }
     public void setPower(double power)
     {
@@ -34,7 +59,7 @@ public class SwerveModule {
     {
         servo.setPosition((degrees+180)/(360));
     }
-    public double getDesiredAngle(double dx, double dy, double dr, Vector2 pos)
+    public double getDesiredAngle(double dx, double dy, double dr)
     {
         double rx = -dr*pos.y;
         double ry = dr*pos.x;
@@ -43,7 +68,7 @@ public class SwerveModule {
 
         return Math.atan2(wy,wx);
     }
-    public double getDesiredPower(double dx, double dy, double dr, Vector2 pos)
+    public double getDesiredPower(double dx, double dy, double dr)
     {
         double rx = -dr*pos.y;
         double ry = dr*pos.x;
@@ -51,5 +76,10 @@ public class SwerveModule {
         double wy = dy+ry;
 
         return Math.hypot(wx, wy);
+    }
+
+    public double getAngleToTurn()
+    {
+        return Math.atan2(pos.x,-pos.y);
     }
 }

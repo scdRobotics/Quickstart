@@ -3,12 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class SwerveTeleop extends LinearOpMode {
-    final double robotWidth = 18, robotLength= 18; //width = distance of robot along forwards/backwards direction, length = distance of robot along left/right direction
-
-    final Vector2 flPos = new Vector2(robotWidth/2, -robotLength/2);
-    final Vector2 frPos = new Vector2(robotWidth/2, robotLength/2);
-    final Vector2 blPos = new Vector2(-robotWidth/2, -robotLength/2);
-    final Vector2 brPos = new Vector2(-robotWidth/2, robotLength/2);
 
     public void runOpMode()
     {
@@ -28,10 +22,10 @@ public class SwerveTeleop extends LinearOpMode {
 
             double frAngle, brAngle, flAngle, blAngle;
 
-            frAngle = frontRightSwerve.getDesiredAngle(dx,dy,dr,frPos);
-            flAngle = frontLeftSwerve.getDesiredAngle(dx,dy,dr,flPos);
-            brAngle = backRightSwerve.getDesiredAngle(dx,dy,dr,brPos);
-            blAngle = backLeftSwerve.getDesiredAngle(dx,dy,dr,blPos);
+            frAngle = frontRightSwerve.getDesiredAngle(dx,dy,dr);
+            flAngle = frontLeftSwerve.getDesiredAngle(dx,dy,dr);
+            brAngle = backRightSwerve.getDesiredAngle(dx,dy,dr);
+            blAngle = backLeftSwerve.getDesiredAngle(dx,dy,dr);
 
             if(gamepadMagnitude >= 0.05)
             {
@@ -42,10 +36,10 @@ public class SwerveTeleop extends LinearOpMode {
             }
             else gamepadMagnitude = 0;
 
-            frontLeftSwerve.setPower(frontLeftSwerve.getDesiredPower(dx,dy,dr,flPos));
-            frontRightSwerve.setPower(frontRightSwerve.getDesiredPower(dx,dy,dr,frPos));
-            backLeftSwerve.setPower(backLeftSwerve.getDesiredPower(dx,dy,dr,blPos));
-            backRightSwerve.setPower(backRightSwerve.getDesiredPower(dx,dy,dr,brPos));
+            frontLeftSwerve.setPower(frontLeftSwerve.getDesiredPower(dx,dy,dr));
+            frontRightSwerve.setPower(frontRightSwerve.getDesiredPower(dx,dy,dr));
+            backLeftSwerve.setPower(backLeftSwerve.getDesiredPower(dx,dy,dr));
+            backRightSwerve.setPower(backRightSwerve.getDesiredPower(dx,dy,dr));
         }
     }
 }
