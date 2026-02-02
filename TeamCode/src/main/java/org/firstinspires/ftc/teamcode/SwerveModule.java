@@ -46,6 +46,13 @@ public class SwerveModule {
             this.pos = blPos;
         }
     }
+    double dx, dy, dr;
+    public void updateGamepad(double dx, double dy, double dr)
+    {
+        this.dx = dx;
+        this.dy = dy;
+        this.dr = dr;
+    }
     public void setPower(double power)
     {
         motor.setPower(power);
@@ -59,16 +66,16 @@ public class SwerveModule {
     {
         servo.setPosition((degrees+180)/(360));
     }
-    public double getDesiredAngle(double dx, double dy, double dr)
+    public double getDesiredAngle()
     {
-        double rx = -dr*pos.y;
-        double ry = dr*pos.x;
+        double rx = dr*pos.x;
+        double ry = dr*pos.y;
         double wx = dx+rx;
         double wy = dy+ry;
 
         return Math.atan2(wy,wx);
     }
-    public double getDesiredPower(double dx, double dy, double dr)
+    public double getDesiredPower()
     {
         double rx = -dr*pos.y;
         double ry = dr*pos.x;
@@ -80,6 +87,6 @@ public class SwerveModule {
 
     public double getAngleToTurn()
     {
-        return Math.atan2(pos.x,-pos.y);
+        return Math.atan2(pos.x,pos.y);
     }
 }

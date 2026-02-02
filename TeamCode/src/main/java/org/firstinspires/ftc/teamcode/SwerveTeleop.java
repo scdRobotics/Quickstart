@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import java.util.List;
+
 public class SwerveTeleop extends LinearOpMode {
 
     public void runOpMode()
@@ -10,6 +12,8 @@ public class SwerveTeleop extends LinearOpMode {
         SwerveModule frontRightSwerve = new SwerveModule(hardwareMap, telemetry, "frontRight");
         SwerveModule backLeftSwerve = new SwerveModule(hardwareMap, telemetry, "backLeft");
         SwerveModule backRightSwerve = new SwerveModule(hardwareMap, telemetry, "backRight");
+
+        List<SwerveModule> swerves = List.of(frontLeftSwerve,frontRightSwerve,backLeftSwerve,backRightSwerve);
 
         waitForStart();
         while(!isStopRequested())
@@ -21,25 +25,36 @@ public class SwerveTeleop extends LinearOpMode {
             double gamepadMagnitude = Math.sqrt((dx*dx)+(dy*dy));
 
             double frAngle, brAngle, flAngle, blAngle;
+            double frPower, brPower, flPower, blPower;
 
-            frAngle = frontRightSwerve.getDesiredAngle(dx,dy,dr);
-            flAngle = frontLeftSwerve.getDesiredAngle(dx,dy,dr);
-            brAngle = backRightSwerve.getDesiredAngle(dx,dy,dr);
-            blAngle = backLeftSwerve.getDesiredAngle(dx,dy,dr);
+            for(SwerveModule swerve : swerves)
+            {
+                swerve.updateGamepad(dx,dy,dr);
+            }
+
+            flAngle = frontLeftSwerve.getDesiredAngle();
+            frAngle = frontRightSwerve.getDesiredAngle();
+            blAngle = backLeftSwerve.getDesiredAngle();
+            brAngle = backRightSwerve.getDesiredAngle();
+
+            flPower = frontLeftSwerve.getDesiredPower();
+            frPower = frontRightSwerve.getDesiredPower();
+            blPower = backLeftSwerve.getDesiredPower();
+            brPower = backRightSwerve.getDesiredPower();
 
             if(gamepadMagnitude >= 0.05)
             {
-                frontRightSwerve.setAngle(frAngle);
                 frontLeftSwerve.setAngle(flAngle);
-                backRightSwerve.setAngle(brAngle);
+                frontRightSwerve.setAngle(frAngle);
                 backLeftSwerve.setAngle(blAngle);
+                backRightSwerve.setAngle(brAngle);
             }
             else gamepadMagnitude = 0;
 
-            frontLeftSwerve.setPower(frontLeftSwerve.getDesiredPower(dx,dy,dr));
-            frontRightSwerve.setPower(frontRightSwerve.getDesiredPower(dx,dy,dr));
-            backLeftSwerve.setPower(backLeftSwerve.getDesiredPower(dx,dy,dr));
-            backRightSwerve.setPower(backRightSwerve.getDesiredPower(dx,dy,dr));
+            frontLeftSwerve.setPower(flPower);
+            frontRightSwerve.setPower(frPower);
+            backLeftSwerve.setPower(blPower);
+            backRightSwerve.setPower(brPower);
         }
     }
 }

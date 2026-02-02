@@ -68,7 +68,7 @@ public class RobotController {
         {
             for(SwerveModule swerve : swerves)
             {
-                swerve.setAngle(-swerve.getAngleToTurn());
+                swerve.setAngle(swerve.getAngleToTurn());
             }
         }
         while(imu.getRobotYawPitchRollAngles().getYaw() > angle)
@@ -78,7 +78,7 @@ public class RobotController {
             powerMult = Math.max(0.25, powerMult);
             for(SwerveModule swerve : swerves)
             {
-                swerve.setPower(power*powerMult);
+                swerve.setPower(-power*powerMult);
             }
         }
     }
